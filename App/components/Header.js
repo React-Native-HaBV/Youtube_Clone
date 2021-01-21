@@ -5,7 +5,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { getStatusBarHeight } from '../components/StatusBarHeight';
+import {getStatusBarHeight} from '../components/StatusBarHeight';
+import NavigationService from '../NavigationService';
 
 const statusHeight = getStatusBarHeight();
 
@@ -39,6 +40,9 @@ export default function Header() {
           size={22}
           color={'black'}
           style={{marginLeft: 15}}
+          onPress={() => {
+            NavigationService.navigate("Search");
+          }}
         />
         <MaterialCommunityIcons
           name={'account-circle'}

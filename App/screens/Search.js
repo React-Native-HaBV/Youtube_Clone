@@ -1,12 +1,20 @@
-import React, {useState} from 'react';
-import {View, TextInput, Text, Image, StyleSheet, FlatList} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  TextInput,
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MiniCard from '../components/MiniCard';
+import NavigationService from '../NavigationService';
 
-//GET https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=songs&type=video&key=[YOUR_API_KEY]
 const APIKey = 'AIzaSyCVOQG8q_Jfgk1ZhW9KQM1Brfy5pZXLfsU';
 
-const SearchScreen = () => {
+const Search = ({navigation}) => {
   const [searchText, setSearchText] = useState('');
   const [miniCard, setMiniCard] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,8 +26,8 @@ const SearchScreen = () => {
     )
       .then((result) => result.json())
       .then((data) => {
-        setLoading(false);
-        setMiniCard(data.items);
+        // setLoading(false);
+        // setMiniCard(data.items);
       });
   };
 
@@ -30,18 +38,18 @@ const SearchScreen = () => {
           name={'ios-arrow-back'}
           size={30}
           color={'black'}
-          style={{}}
-          onPress={() => {}}
+          style={{paddingHorizontal: 15}}
+          onPress={() => NavigationService.goBack()}
         />
         <TextInput
           autoCapitalize={'none'}
           autoCorrect={false}
           returnKeyType={'search'}
-          onSubmitEditting={(event) => {
-            if (event.nativeEvent.key === 'Enter'){
-              fetchData();
-            }
-          }}
+          // onSubmitEditting={(event) => {
+          //   if (event.nativeEvent.key === 'Enter') {
+          //     fetchData();
+          //   }
+          // }}
           // onKeyPress={() => fetchData()}
           value={searchText}
           onChangeText={(text) => setSearchText(text)}
@@ -58,10 +66,17 @@ const SearchScreen = () => {
           onPress={() => fetchData()}
         />
       </View>
+      {loading ? (
+        <ActivityIndicator
+          style={{marginTop: 20}}
+          size={'large'}
+          color={'red'}
+        />
+      ) : null}
       <FlatList
         data={miniCard}
-        renderItem={({ item }) => {
-          console.log('item:', item)
+        renderItem={({item}) => {
+          console.log('item:', item);
           return (
             <MiniCard
               videoId={item.id.videoId}
@@ -70,7 +85,8 @@ const SearchScreen = () => {
             />
           );
         }}
-        keyExtractor={(item, index) => `${item.id.videoId}`}
+        keyExtractor={(item) => `${item.id.videoId}`}
+        removeClippedSubviews={true}
       />
     </View>
   );
@@ -95,4 +111,4 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
 });
-export default SearchScreen;
+export default Search;
