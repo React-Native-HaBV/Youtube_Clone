@@ -1,13 +1,12 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 
-export default function Card() {
+export default function Card(props) {
   return (
     <View style={{}}>
       <Image
         source={{
-          uri:
-            'https://images.unsplash.com/photo-1552607676-17f088307dce?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=781&q=80',
+          uri: `https://i.ytimg.com/vi/${props.videoId}/hqdefault_live.jpg`,
         }}
         style={{
           width: '100%',
@@ -27,11 +26,10 @@ export default function Card() {
             style={{fontSize: 16, fontWeight: '500'}}
             numberOfLines={2}
             ellipsizeMode={'tail'}>
-            This is a content videoa;s fhasd hasjhda shfa
-            shfjashf;ashfk;ashfaskj haskjhashjk adas asdasdasd asdas
+            {props.title}
           </Text>
           <Text style={{fontSize: 14, fontWeight: '400', color: 'gray'}}>
-            This is a information video{' '}
+            {props.channel}
           </Text>
         </View>
       </View>

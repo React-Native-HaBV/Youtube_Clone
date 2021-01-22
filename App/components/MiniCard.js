@@ -1,9 +1,12 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
+import NavigationService from '../NavigationService';
 
 export default function MiniCard(props) {
   return (
-    <View style={{flexDirection: 'row', margin: 5}}>
+    <View
+      style={{flexDirection: 'row', margin: 5}}
+      onPress={() => NavigationService.navigate('VideoPlayer')}>
       <Image
         source={{
           uri: `https://i.ytimg.com/vi/${props.videoId}/hqdefault_live.jpg`,

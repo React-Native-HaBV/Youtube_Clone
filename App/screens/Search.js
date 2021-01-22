@@ -12,12 +12,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MiniCard from '../components/MiniCard';
 import NavigationService from '../NavigationService';
 
-const APIKey = 'AIzaSyCVOQG8q_Jfgk1ZhW9KQM1Brfy5pZXLfsU';
+import {useSelector, useDispatch} from 'react-redux';
+
+const APIKey = 'AIzaSyAR6JWXcZT2snpUboVn0hCaIzbIlhFxdwo';
 
 const Search = ({navigation}) => {
   const [searchText, setSearchText] = useState('');
-  const [miniCard, setMiniCard] = useState([]);
+  // const [miniCard, setMiniCard] = useState([]);
   const [loading, setLoading] = useState(false);
+  const miniCard = useSelector((state) => {
+    return state;
+  });
+
+  const dispatch = useDispatch();
 
   const fetchData = () => {
     setLoading(true);
@@ -26,8 +33,10 @@ const Search = ({navigation}) => {
     )
       .then((result) => result.json())
       .then((data) => {
-        // setLoading(false);
+        console.log(data.items);
+        setLoading(false);
         // setMiniCard(data.items);
+        dispatch({type: 'add', payload: data.items});
       });
   };
 
@@ -76,7 +85,7 @@ const Search = ({navigation}) => {
       <FlatList
         data={miniCard}
         renderItem={({item}) => {
-          console.log('item:', item);
+          // console.log('item:', item);
           return (
             <MiniCard
               videoId={item.id.videoId}

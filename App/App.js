@@ -20,8 +20,14 @@ import {
 } from './services/VectorIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
 
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import {reducer} from './reducer/reducer';
+
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+const store = createStore(reducer);
 
 function HomeTabNavigator() {
   return (
@@ -117,9 +123,11 @@ function HomeStackNavigator() {
 
 const App = () => {
   return (
-    <NavigationContainer ref={navigationRef}>
-      <HomeStackNavigator />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer ref={navigationRef}>
+        <HomeStackNavigator />
+      </NavigationContainer>
+    </Provider>
   );
 };
 
