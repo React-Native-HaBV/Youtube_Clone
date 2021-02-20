@@ -13,17 +13,18 @@ import MiniCard from '../components/MiniCard';
 import NavigationService from '../NavigationService';
 
 import {useSelector, useDispatch} from 'react-redux';
+import { useTheme } from "@react-navigation/native";
 
 const APIKey = 'AIzaSyAR6JWXcZT2snpUboVn0hCaIzbIlhFxdwo';
 
-const Search = ({navigation}) => {
+const Search = ({}) => {
   const [searchText, setSearchText] = useState('');
   // const [miniCard, setMiniCard] = useState([]);
   const [loading, setLoading] = useState(false);
   const miniCard = useSelector((state) => {
-    return state;
+    return state.addData;
   });
-
+  const {colors} = useTheme();
   const dispatch = useDispatch();
 
   const fetchData = () => {
@@ -42,11 +43,11 @@ const Search = ({navigation}) => {
 
   return (
     <View style={styles.searchContainer}>
-      <View style={styles.searchContent}>
+      <View style={[styles.searchContent, {backgroundColor: colors.backgroundColor}]}>
         <Ionicons
           name={'ios-arrow-back'}
           size={30}
-          color={'black'}
+          color={colors.iconColor}
           style={{paddingHorizontal: 15}}
           onPress={() => NavigationService.goBack()}
         />
@@ -71,7 +72,7 @@ const Search = ({navigation}) => {
         <Ionicons
           name={'send'}
           size={30}
-          color={'black'}
+          color={colors.iconColor}
           onPress={() => fetchData()}
         />
       </View>

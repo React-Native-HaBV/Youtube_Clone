@@ -4,21 +4,34 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useTheme} from '@react-navigation/native';
 
 import {getStatusBarHeight} from '../components/StatusBarHeight';
 import NavigationService from '../NavigationService';
+import { useDispatch, useSelector } from "react-redux";
 
 const statusHeight = getStatusBarHeight();
 
-export default function Header() {
+export default function Header({props}) {
+  const {colors} = useTheme();
+  const iconColor = colors.iconColor;
+  const dispatch = useDispatch();
+  const currentTheme = useSelector( (state) => {
+    return state.changeTheme;
+  })
+
   return (
-    <View style={styles.headerContainer}>
+    <View
+      style={[
+        styles.headerContainer,
+        {backgroundColor: colors.backgroundColor},
+      ]}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <AntDesign
           name={'youtube'}
           size={28}
           color={'red'}
-          style={{marginLeft: 15}}
+          style={{marginLeft: 15, backgroundColor: 'transparent'}}
         />
         <Text style={{fontSize: 22, fontWeight: '600'}}> Youtube </Text>
       </View>
@@ -26,29 +39,30 @@ export default function Header() {
         <Feather
           name={'cast'}
           size={22}
-          color={'black'}
+          color={iconColor}
           style={{marginLeft: 20}}
         />
         <Ionicons
           name={'notifications-outline'}
           size={22}
-          color={'black'}
+          color={iconColor}
           style={{marginLeft: 15}}
         />
         <Ionicons
           name={'md-search-outline'}
           size={22}
-          color={'black'}
+          color={iconColor}
           style={{marginLeft: 15}}
           onPress={() => {
-            NavigationService.navigate("Search");
+            NavigationService.navigate('Search');
           }}
         />
         <MaterialCommunityIcons
           name={'account-circle'}
           size={22}
-          color={'black'}
+          color={iconColor}
           style={{marginLeft: 15}}
+          onPress={() => dispatch({type: 'change_theme', payload: !currentTheme})}
         />
       </View>
     </View>

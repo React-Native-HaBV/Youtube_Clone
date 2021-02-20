@@ -27,9 +27,9 @@ const LittleCard = ({name}) => {
   );
 };
 
-export default function Explore({navigation}) {
+export default function Explore({}) {
   const data = useSelector((state) => {
-    return state;
+    return state.addData;
   });
   return (
     <View style={{flex: 1}}>

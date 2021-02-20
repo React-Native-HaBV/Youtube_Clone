@@ -2,7 +2,12 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {View, Text, Image} from 'react-native';
 
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  DarkTheme,
+  DefaultTheme,
+  useTheme,
+} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {navigationRef} from './NavigationService';
 
@@ -20,16 +25,41 @@ import {
 } from './services/VectorIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
 
-import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import {Provider, useSelector} from 'react-redux';
+import {combineReducers, createStore} from 'redux';
 import {reducer} from './reducer/reducer';
+import {themeReducer} from './reducer/themeReducer';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const store = createStore(reducer);
+const rootReducer = combineReducers({
+  addData: reducer,
+  changeTheme: themeReducer,
+});
+const store = createStore(rootReducer);
+
+const customDarkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    backgroundColor: '#404040',
+    iconColor: 'white',
+    tabIcon: 'white',
+  },
+};
+const customDefaultTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    backgroundColor: 'white',
+    iconColor: 'black',
+    tabIcon: 'red',
+  },
+};
 
 function HomeTabNavigator() {
+  const {colors} = useTheme();
   return (
     <Tab.Navigator
       initialRouteName={'Home'}
@@ -43,7 +73,8 @@ function HomeTabNavigator() {
           fontSize: 14,
           backgroundColor: 'transparent',
         },
-        activeTintColor: 'red',
+        activeTintColor: colors.tabIcon,
+        // activeTintColor: 'red',
         inactiveTintColor: 'gray',
       }}
       backBehavior={'history'}>
@@ -121,14 +152,25 @@ function HomeStackNavigator() {
   );
 }
 
-const App = () => {
+const RootNavigator = () => {
+  let currentTheme = useSelector((state) => {
+    return state.changeTheme;
+  });
   return (
     <Provider store={store}>
-      <NavigationContainer ref={navigationRef}>
+      <NavigationContainer
+        ref={navigationRef}
+        theme={currentTheme ? customDefaultTheme : customDarkTheme}>
         <HomeStackNavigator />
       </NavigationContainer>
     </Provider>
   );
 };
 
-export default App;
+export default App = () => {
+  return (
+    <Provider store={store}>
+      <RootNavigator />
+    </Provider>
+  );
+};
