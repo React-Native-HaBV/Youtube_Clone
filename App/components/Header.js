@@ -8,7 +8,7 @@ import {useTheme} from '@react-navigation/native';
 
 import {getStatusBarHeight} from '../components/StatusBarHeight';
 import NavigationService from '../NavigationService';
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from 'react-redux';
 
 const statusHeight = getStatusBarHeight();
 
@@ -16,9 +16,9 @@ export default function Header({props}) {
   const {colors} = useTheme();
   const iconColor = colors.iconColor;
   const dispatch = useDispatch();
-  const currentTheme = useSelector( (state) => {
+  const currentTheme = useSelector((state) => {
     return state.changeTheme;
-  })
+  });
 
   return (
     <View
@@ -62,7 +62,9 @@ export default function Header({props}) {
           size={22}
           color={iconColor}
           style={{marginLeft: 15}}
-          onPress={() => dispatch({type: 'change_theme', payload: !currentTheme})}
+          onPress={() =>
+            dispatch({type: 'change_theme', payload: !currentTheme})
+          }
         />
       </View>
     </View>
@@ -72,8 +74,11 @@ export default function Header({props}) {
 const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: 'white',
-    height: 40,
-    marginTop: statusHeight,
+    height: 45,
+    position: 'absolute',
+    top: statusHeight,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
     elevation: 4,
